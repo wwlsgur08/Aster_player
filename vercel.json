@@ -1,5 +1,4 @@
 {
-  "buildCommand": "cd 'Music Player Integration' && npm run build",
-  "outputDirectory": "Music Player Integration/build",
-  "installCommand": "cd 'Music Player Integration' && npm install"
+  "buildCommand": "npm run build",
+  "outputDirectory": "build"
 }
