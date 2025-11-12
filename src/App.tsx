@@ -240,14 +240,20 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto" style={{ height: 'calc(100vh - 100px)' }}>
+          <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto" style={{ height: 'calc(100vh - 80px)' }}>
             {/* LP Player */}
             <div className="flex items-center justify-center">
               {currentTrack && <MusicPlayer track={currentTrack} />}
             </div>
 
-            {/* Music List */}
-            <div className="overflow-y-auto pr-2 music-list-scroll" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+            {/* Music List - 스크롤 가능 */}
+            <div 
+              className="overflow-y-scroll music-list-scroll" 
+              style={{ 
+                height: '600px',
+                paddingRight: '8px'
+              }}
+            >
               <MusicList 
                 tracks={tracks} 
                 currentTrack={currentTrack}
