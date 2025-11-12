@@ -240,14 +240,14 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto" style={{ height: 'calc(100vh - 150px)' }}>
+          <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto" style={{ height: 'calc(100vh - 100px)' }}>
             {/* LP Player */}
             <div className="flex items-center justify-center">
               {currentTrack && <MusicPlayer track={currentTrack} />}
             </div>
 
             {/* Music List */}
-            <div className="overflow-y-auto pr-2 music-list-scroll" style={{ maxHeight: 'calc(100vh - 150px)' }}>
+            <div className="overflow-y-auto pr-2 music-list-scroll" style={{ maxHeight: 'calc(100vh - 100px)' }}>
               <MusicList 
                 tracks={tracks} 
                 currentTrack={currentTrack}
@@ -256,11 +256,6 @@ export default function App() {
             </div>
           </div>
         )}
-
-        {/* Footer */}
-        <footer className="text-center mt-16 text-slate-400">
-          <p>© Aster Alarm - 나만의 매력 벨소리</p>
-        </footer>
       </div>
     </div>
   );
