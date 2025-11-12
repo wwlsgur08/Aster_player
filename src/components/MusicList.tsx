@@ -35,14 +35,15 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-white flex items-center gap-2">
-          <Music className="w-6 h-6" />
-          매력 음악 리스트
-        </h2>
-        <span className="text-white/70">{tracks.length}곡</span>
-      </div>
+    <div className="h-full overflow-y-scroll music-list-scroll" style={{ paddingRight: '8px' }}>
+      <div className="space-y-4">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-white flex items-center gap-2">
+            <Music className="w-6 h-6" />
+            매력 음악 리스트
+          </h2>
+          <span className="text-white/70">{tracks.length}곡</span>
+        </div>
 
       <div className="space-y-3">
         {tracks.map((track) => {
@@ -145,6 +146,7 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
           <p className="text-sm mt-2">Aster Alarm에서 음악을 생성해보세요!</p>
         </div>
       )}
+      </div>
     </div>
   );
 }

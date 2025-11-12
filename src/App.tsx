@@ -246,14 +246,8 @@ export default function App() {
               {currentTrack && <MusicPlayer track={currentTrack} />}
             </div>
 
-            {/* Music List - 스크롤 가능 */}
-            <div 
-              className="overflow-y-scroll music-list-scroll" 
-              style={{ 
-                height: '600px',
-                paddingRight: '8px'
-              }}
-            >
+            {/* Music List - 투명한 박스 안에서 스크롤 */}
+            <div style={{ height: 'calc(100vh - 80px)' }}>
               <MusicList 
                 tracks={tracks} 
                 currentTrack={currentTrack}
