@@ -232,20 +232,6 @@ export default function App() {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-8">
-        {/* Header */}
-        <header className="text-center mb-12">
-          <div className="flex items-center justify-center mb-4">
-            <img 
-              src="/images/logo.png" 
-              alt="Aster Alarm Logo" 
-              className="h-16 object-contain"
-            />
-          </div>
-          <p className="text-slate-300">
-            디지털 LP판 매력 음악 플레이어
-          </p>
-        </header>
-
         {isLoading ? (
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-white flex flex-col items-center gap-4">
@@ -254,14 +240,14 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto" style={{ height: 'calc(100vh - 150px)' }}>
             {/* LP Player */}
-            <div className="lg:sticky lg:top-8 h-fit">
+            <div className="flex items-center justify-center">
               {currentTrack && <MusicPlayer track={currentTrack} />}
             </div>
 
             {/* Music List */}
-            <div>
+            <div className="overflow-y-auto pr-2 music-list-scroll" style={{ maxHeight: 'calc(100vh - 150px)' }}>
               <MusicList 
                 tracks={tracks} 
                 currentTrack={currentTrack}

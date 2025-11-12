@@ -1830,3 +1830,22 @@ html {
     opacity: .5;
   }
 }
+
+/* Custom scrollbar for music list */
+.music-list-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.music-list-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.music-list-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #06b6d4, #0891b2);
+  border-radius: 10px;
+}
+
+.music-list-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #0891b2, #06b6d4);
+}
