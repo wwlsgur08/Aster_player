@@ -6,6 +6,7 @@ interface MusicTrack {
   id: string;
   name: string;
   traits: { charm_name: string; stage: number }[];
+  name: string;
   duration: number;
   audioUrl: string;
   createdAt: number;

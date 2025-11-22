@@ -3,9 +3,11 @@ import { Music } from 'lucide-react';
 import { MusicPlayer } from './components/MusicPlayer';
 import { MusicList } from './components/MusicList';
 import { motion } from 'motion/react';
+import { subscribeMusicTracks, FirebaseMusicTrack } from './services/firebase';
 
 export interface MusicTrack {
   id: string;
+  name: string;
   title: string;
   artist: string;
   duration: number;
@@ -89,115 +91,32 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Firebase에서 음악 데이터 가져오기
-    // 실제 구현에서는 Firebase Realtime Database에서 데이터를 가져옵니다
-    const fetchTracks = async () => {
-      // Mock 데이터 (Firebase 연동 시 실제 데이터로 대체)
-      const mockTracks: MusicTrack[] = [
-        {
-          id: '1',
-          title: '지민',
-          artist: 'BTS',
-          traits: [
-            { charm_name: '침착함', stage: 6 },
-            { charm_name: '안정감', stage: 5 },
-            { charm_name: '긍정적', stage: 4 }
-          ],
-          duration: 60,
-          audioUrl: '',
-          createdAt: Date.now() - 3600000
-        },
-        {
-          id: '2',
-          title: '승현',
-          artist: 'BTS',
-          traits: [
-            { charm_name: '유머 감각', stage: 6 },
-            { charm_name: '분위기 메이커', stage: 5 },
-            { charm_name: '사교적 에너지', stage: 4 }
-          ],
-          duration: 45,
-          audioUrl: '',
-          createdAt: Date.now() - 7200000
-        },
-        {
-          id: '3',
-          title: '수진',
-          artist: 'BTS',
-          traits: [
-            { charm_name: '호기심', stage: 8 },
-            { charm_name: '창의성', stage: 7 },
-            { charm_name: '통찰력', stage: 6 }
-          ],
-          duration: 90,
-          audioUrl: '',
-          createdAt: Date.now() - 10800000
-        },
-        {
-          id: '4',
-          title: '민수',
-          artist: 'BTS',
-          traits: [
-            { charm_name: '정직함', stage: 7 },
-            { charm_name: '양심', stage: 6 },
-            { charm_name: '진정성', stage: 5 }
-          ],
-          duration: 75,
-          audioUrl: '',
-          createdAt: Date.now() - 14400000
-        },
-        {
-          id: '5',
-          title: '혜린',
-          artist: 'BTS',
-          traits: [
-            { charm_name: '다정함', stage: 8 },
-            { charm_name: '공감 능력', stage: 7 },
-            { charm_name: '배려심', stage: 6 }
-          ],
-          duration: 55,
-          audioUrl: '',
-          createdAt: Date.now() - 18000000
-        },
-        {
-          id: '6',
-          title: '태양',
-          artist: 'BTS',
-          traits: [
-            { charm_name: '목표 의식', stage: 9 },
-            { charm_name: '열정', stage: 8 },
-            { charm_name: '리더십', stage: 7 }
-          ],
-          duration: 80,
-          audioUrl: '',
-          createdAt: Date.now() - 21600000
-        },
-        {
-          id: '7',
-          title: '은서',
-          artist: 'BTS',
-          traits: [
-            { charm_name: '성실함', stage: 7 },
-            { charm_name: '책임감', stage: 6 },
-            { charm_name: '계획성', stage: 5 }
-          ],
-          duration: 65,
-          audioUrl: '',
-          createdAt: Date.now() - 25200000
-        }
-      ];
+    // Firebase에서 실시간으로 음악 데이터 구독
+    const unsubscribe = subscribeMusicTracks((firebaseTracks: FirebaseMusicTrack[]) => {
+      // Firebase 데이터를 MusicTrack 형식으로 변환
+      const convertedTracks: MusicTrack[] = firebaseTracks.map(track => ({
+        id: track.id || '',
+        name: track.name,
+        title: track.title,
+        artist: track.artist,
+        duration: track.duration,
+        audioUrl: track.audioUrl,
+        traits: track.charmTraits
+      }));
 
-      setTimeout(() => {
-        setTracks(mockTracks);
-        if (mockTracks.length > 0) {
-          setCurrentTrack(mockTracks[0]);
-        }
-        setIsLoading(false);
-      }, 500);
-    };
+      setTracks(convertedTracks);
+      
+      // 첫 번째 트랙을 현재 트랙으로 설정 (가장 최신)
+      if (convertedTracks.length > 0 && !currentTrack) {
+        setCurrentTrack(convertedTracks[0]);
+      }
+      
+      setIsLoading(false);
+    });
 
-    fetchTracks();
-  }, []);
+    // 컴포넌트 언마운트 시 구독 해제
+    return () => unsubscribe();
+  }, [currentTrack]);
 
   const handleTrackSelect = (track: MusicTrack) => {
     setCurrentTrack(track);
