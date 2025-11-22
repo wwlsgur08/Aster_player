@@ -1,6 +1,6 @@
 // Firebase 설정 및 초기화
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, push, onValue, off, DataSnapshot } from 'firebase/database';
+import { getDatabase, ref, push, onValue, off, DataSnapshot, remove } from 'firebase/database';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -77,6 +77,18 @@ export const subscribeMusicTracks = (callback: (tracks: FirebaseMusicTrack[]) =>
 
   // onValue가 반환한 언구수 함수를 그대로 반환 (누수/중복 방지)
   return unsubscribe;
+};
+
+// 음악 데이터 삭제
+export const deleteMusicTrack = async (id: string) => {
+  try {
+    const trackRef = ref(database, `music-tracks/${id}`);
+    await remove(trackRef);
+    console.log('음악 삭제 완료:', id);
+  } catch (error) {
+    console.error('음악 삭제 중 오류 발생:', error);
+    throw error;
+  }
 };
 
 // API 엔드포인트: alarm 사이트에서 호출할 함수

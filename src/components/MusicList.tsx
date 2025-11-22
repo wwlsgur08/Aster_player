@@ -1,6 +1,7 @@
-import React from 'react';
-import { Music, Clock, Calendar } from 'lucide-react';
+import React, { useState } from 'react';
+import { Music, Clock, Calendar, Settings, X } from 'lucide-react';
 import { getDominantCategory } from '../utils/charmCategories';
+import { deleteMusicTrack } from '../services/firebase';
 
 interface MusicTrack {
   id: string;
@@ -19,20 +20,54 @@ interface MusicListProps {
 }
 
 export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProps) {
+  const [canDelete, setCanDelete] = useState(false);
+
   const formatDuration = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${minutes}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const formatDate = (timestamp: number) => {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString('ko-KR', { 
-      month: 'short', 
-      day: 'numeric',
+  const formatDate = (timestamp: any) => {
+    if (timestamp === undefined || timestamp === null) return '-';
+    const value = typeof timestamp === 'string' ? parseInt(timestamp, 10) : timestamp;
+    const date = new Date(value);
+    if (!isFinite(date.getTime())) return '-';
+    return date.toLocaleString('ko-KR', { 
+      year: 'numeric',
+      month: '2-digit', 
+      day: '2-digit',
       hour: '2-digit',
       minute: '2-digit'
     });
+  };
+
+  const handleToggleAdmin = () => {
+    if (canDelete) {
+      setCanDelete(false);
+      return;
+    }
+    const pwd = window.prompt('관리자 비밀번호를 입력하세요.');
+    const expected = (import.meta as any)?.env?.VITE_ADMIN_PASSWORD || 'aster1234';
+    if (pwd && pwd === expected) {
+      setCanDelete(true);
+      alert('삭제 권한이 활성화되었습니다. 항목의 X 버튼으로 삭제할 수 있습니다.');
+    } else {
+      alert('비밀번호가 올바르지 않습니다.');
+    }
+  };
+
+  const handleDelete = async (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    if (!canDelete) return;
+    const ok = window.confirm('이 음악을 삭제하시겠습니까?');
+    if (!ok) return;
+    try {
+      await deleteMusicTrack(id);
+    } catch (err) {
+      console.error(err);
+      alert('삭제 중 오류가 발생했습니다.');
+    }
   };
 
   return (
@@ -43,7 +78,17 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
             <Music className="w-6 h-6" />
             매력 음악 리스트
           </h2>
-          <span className="text-white/70">{tracks.length}곡</span>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleToggleAdmin}
+              className={`flex items-center gap-1 px-2 py-1 rounded text-xs border ${canDelete ? 'border-red-400 text-red-300' : 'border-white/20 text-white/70'} hover:border-cyan-400/60 hover:text-white transition`}
+              title={canDelete ? '관리 권한 해제' : '설정(관리자 모드)'}
+            >
+              <Settings className="w-4 h-4" />
+              {canDelete ? '관리 해제' : '설정'}
+            </button>
+            <span className="text-white/70">{tracks.length}곡</span>
+          </div>
         </div>
 
       <div className="space-y-3">
@@ -116,9 +161,9 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
                   </div>
                 </div>
 
-                {/* Play Indicator */}
-                {isActive && (
-                  <div className="flex-shrink-0 flex items-center">
+                {/* Right Controls */}
+                <div className="flex-shrink-0 flex items-center gap-2">
+                  {isActive && (
                     <div className="flex gap-1">
                       {[...Array(3)].map((_, i) => (
                         <div
@@ -132,8 +177,17 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
                         />
                       ))}
                     </div>
-                  </div>
-                )}
+                  )}
+                  {canDelete && (
+                    <button
+                      onClick={(e) => handleDelete(e, track.id)}
+                      className="p-1.5 rounded hover:bg-red-500/20 border border-red-400/50 text-red-300 hover:text-red-200"
+                      title="삭제"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
               </div>
             </button>
           );

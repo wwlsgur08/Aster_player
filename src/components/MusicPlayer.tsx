@@ -89,6 +89,14 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  const formatDate = (timestamp: any) => {
+    if (timestamp === undefined || timestamp === null) return '';
+    const value = typeof timestamp === 'string' ? parseInt(timestamp, 10) : timestamp;
+    const date = new Date(value);
+    if (!isFinite(date.getTime())) return '';
+    return date.toLocaleDateString('ko-KR');
+  };
+
   return (
     <div className="bg-slate-800/40 backdrop-blur-xl rounded-3xl p-8 border-2 border-slate-700/50 shadow-2xl">
       {/* Turntable Container */}
@@ -331,7 +339,7 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
           ))}
         </div>
         <p className={`${dominantCategory.color.text} text-sm`}>
-          {formatTime(duration)} • {new Date(track.createdAt).toLocaleDateString('ko-KR')}
+          {formatTime(duration)}{formatDate(track.createdAt) ? ` • ${formatDate(track.createdAt)}` : ''}
         </p>
       </div>
 

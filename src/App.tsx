@@ -16,6 +16,7 @@ export interface MusicTrack {
     charm_name: string;
     stage: number;
   }[];
+  createdAt: number;
 }
 
 // 별자리 연결선 SVG 컴포넌트
@@ -133,7 +134,8 @@ export default function App() {
             artist: track.artist,
             duration: track.duration,
             audioUrl: track.audioUrl,
-            traits: track.charmTraits
+            traits: track.charmTraits,
+            createdAt: (track as any).createdAt ?? Date.now()
           }));
 
           setTracks(convertedTracks);
