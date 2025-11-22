@@ -71,7 +71,7 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col border-4 border-blue-500" style={{ paddingRight: '8px' }}>
       <div className="flex items-center justify-between mb-4">
           <h2 className="text-white flex items-center gap-2">
             <Music className="w-6 h-6" />
@@ -90,7 +90,7 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
           </div>
         </div>
 
-      <div className="flex-1 space-y-3 overflow-y-auto pr-2">
+      <div className="space-y-3">
         {tracks.map((track) => {
           const isActive = currentTrack?.id === track.id;
           const dominantCategory = getDominantCategory(track.traits);

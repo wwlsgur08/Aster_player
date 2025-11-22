@@ -274,7 +274,7 @@ export default function App() {
             </div>
 
             {/* Music List - 투명한 박스 안에서 스크롤 */}
-            <div className="h-full min-h-0 bg-white/5 border border-white/10 rounded-2xl p-4">
+            <div className="h-full min-h-0 overflow-y-auto music-list-scroll bg-white/5 border-4 border-red-500 rounded-2xl p-4">
               <MusicList 
                 tracks={tracks} 
                 currentTrack={currentTrack}
