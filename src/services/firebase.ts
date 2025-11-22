@@ -4,14 +4,14 @@ import { getDatabase, ref, push, onValue, off, DataSnapshot } from 'firebase/dat
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  // Firebase 프로젝트 설정 (환경변수로 관리 권장)
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "your-api-key",
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || "your-project.firebaseapp.com",
-  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL || "https://your-project-default-rtdb.firebaseio.com/",
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "your-project-id",
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || "your-project.appspot.com",
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "123456789",
-  appId: process.env.REACT_APP_FIREBASE_APP_ID || "your-app-id"
+  // Firebase 프로젝트 설정
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "AIzaSyCauC5NvMol_9fX0i2q7wI8zht1xKdS2v4",
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || "aster-music-player.firebaseapp.com",
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL || "https://aster-music-player-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "aster-music-player",
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || "aster-music-player.firebasestorage.app",
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "764474066780",
+  appId: process.env.REACT_APP_FIREBASE_APP_ID || "1:764474066780:web:45430a3130f383aa8aa399"
 };
 
 // Firebase 앱 초기화
