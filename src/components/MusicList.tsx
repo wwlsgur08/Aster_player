@@ -71,9 +71,8 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
   };
 
   return (
-    <div className="h-full overflow-y-scroll music-list-scroll" style={{ paddingRight: '8px' }}>
-      <div className="space-y-4">
-        <div className="flex items-center justify-between mb-6">
+    <div className="h-full flex flex-col" style={{ paddingRight: '8px' }}>
+      <div className="flex items-center justify-between mb-4">
           <h2 className="text-white flex items-center gap-2">
             <Music className="w-6 h-6" />
             매력 음악 리스트
@@ -91,7 +90,7 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
           </div>
         </div>
 
-      <div className="space-y-3">
+      <div className="flex-1 overflow-y-auto music-list-scroll space-y-3">
         {tracks.map((track) => {
           const isActive = currentTrack?.id === track.id;
           const dominantCategory = getDominantCategory(track.traits);
