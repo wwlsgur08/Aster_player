@@ -142,7 +142,7 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
                       return (
                         <span
                           key={index}
-                          className={`px-2 py-0.5 ${c.from.replace('from-', 'bg-')}/20 ${c.text} rounded text-xs border ${c.border}/40`}
+                          className={`px-2 py-0.5 ${c.from.replace('from-', 'bg-')}${'/20'} ${c.text} rounded text-xs border ${c.border}${'/40'}`}
                         >
                           {trait.charm_name} Lv.{trait.stage}
                         </span>
@@ -202,8 +202,7 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
           <p>아직 생성된 음악이 없습니다.</p>
           <p className="text-sm mt-2">Aster Alarm에서 음악을 생성해보세요!</p>
         </div>
-      )}
-      </div>
-    </div>
-  );
-}
+        )}
+        </div>
+    );
+  }
