@@ -1,0 +1,7 @@
+{
+  "outputDirectory": "build",
+  "installCommand": "echo Skip install (prebuilt)",
+  "buildCommand": "echo Skip build (using prebuilt build/)",
+  "ignoreCommand": "echo Do not skip any deploy"
+}
+
