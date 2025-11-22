@@ -91,32 +91,99 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Firebase에서 실시간으로 음악 데이터 구독
-    const unsubscribe = subscribeMusicTracks((firebaseTracks: FirebaseMusicTrack[]) => {
-      // Firebase 데이터를 MusicTrack 형식으로 변환
-      const convertedTracks: MusicTrack[] = firebaseTracks.map(track => ({
-        id: track.id || '',
-        name: track.name,
-        title: track.title,
-        artist: track.artist,
-        duration: track.duration,
-        audioUrl: track.audioUrl,
-        traits: track.charmTraits
-      }));
+    // Firebase 연결 시도, 실패 시 목업 데이터 사용
+    const loadTracks = async () => {
+      try {
+        // Firebase에서 실시간으로 음악 데이터 구독
+        const unsubscribe = subscribeMusicTracks((firebaseTracks: FirebaseMusicTrack[]) => {
+          // Firebase 데이터를 MusicTrack 형식으로 변환
+          const convertedTracks: MusicTrack[] = firebaseTracks.map(track => ({
+            id: track.id || '',
+            name: track.name,
+            title: track.title,
+            artist: track.artist,
+            duration: track.duration,
+            audioUrl: track.audioUrl,
+            traits: track.charmTraits
+          }));
 
-      setTracks(convertedTracks);
-      
-      // 첫 번째 트랙을 현재 트랙으로 설정 (가장 최신)
-      if (convertedTracks.length > 0 && !currentTrack) {
-        setCurrentTrack(convertedTracks[0]);
+          setTracks(convertedTracks);
+          
+          // 첫 번째 트랙을 현재 트랙으로 설정 (가장 최신)
+          if (convertedTracks.length > 0 && !currentTrack) {
+            setCurrentTrack(convertedTracks[0]);
+          }
+          
+          setIsLoading(false);
+        });
+
+        // 5초 후에도 데이터가 없으면 목업 데이터 로드
+        setTimeout(() => {
+          if (tracks.length === 0) {
+            loadMockData();
+          }
+        }, 5000);
+
+        return () => unsubscribe();
+      } catch (error) {
+        console.error('Firebase 연결 실패, 목업 데이터 사용:', error);
+        loadMockData();
       }
-      
-      setIsLoading(false);
-    });
+    };
 
-    // 컴포넌트 언마운트 시 구독 해제
-    return () => unsubscribe();
-  }, [currentTrack]);
+    // 목업 데이터 로드 함수
+    const loadMockData = () => {
+      const mockTracks: MusicTrack[] = [
+        {
+          id: '1',
+          name: '지민',
+          title: '지민의 매력 음악',
+          artist: 'Aster AI',
+          traits: [
+            { charm_name: '침착함', stage: 6 },
+            { charm_name: '안정감', stage: 5 },
+            { charm_name: '긍정적', stage: 4 }
+          ],
+          duration: 60,
+          audioUrl: ''
+        },
+        {
+          id: '2',
+          name: '승현',
+          title: '승현의 매력 음악',
+          artist: 'Aster AI',
+          traits: [
+            { charm_name: '유머 감각', stage: 6 },
+            { charm_name: '분위기 메이커', stage: 5 },
+            { charm_name: '사교적 에너지', stage: 4 }
+          ],
+          duration: 45,
+          audioUrl: ''
+        },
+        {
+          id: '3',
+          name: '수진',
+          title: '수진의 매력 음악',
+          artist: 'Aster AI',
+          traits: [
+            { charm_name: '호기심', stage: 8 },
+            { charm_name: '창의성', stage: 7 },
+            { charm_name: '통찰력', stage: 6 }
+          ],
+          duration: 90,
+          audioUrl: ''
+        }
+      ];
+
+      setTracks(mockTracks);
+      if (mockTracks.length > 0) {
+        setCurrentTrack(mockTracks[0]);
+      }
+      setIsLoading(false);
+    };
+
+    loadTracks();
+  }, []);
 
   const handleTrackSelect = (track: MusicTrack) => {
     setCurrentTrack(track);
