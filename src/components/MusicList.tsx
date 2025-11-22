@@ -139,10 +139,13 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
                   <div className="flex flex-wrap gap-1.5 mb-3">
                     {track.traits.map((trait, index) => {
                       const c = getCharmColorByName(trait.charm_name);
+                      const bgClassWithOpacity = c.from.replace('from-', 'bg-') + '/20';
+                      const borderClassWithOpacity = c.border + '/40';
+
                       return (
                         <span
                           key={index}
-                          className={`px-2 py-0.5 ${c.from.replace('from-', 'bg-')}/20 ${c.text} rounded text-xs border ${c.border}/40`}
+                          className={`px-2 py-0.5 ${bgClassWithOpacity} ${c.text} rounded text-xs border ${borderClassWithOpacity}`}
                         >
                           {trait.charm_name} Lv.{trait.stage}
                         </span>
