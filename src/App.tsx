@@ -91,6 +91,35 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // URL 파라미터에서 자동 추가 데이터 확인
+    const checkAutoAdd = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const autoAddParam = urlParams.get('auto-add');
+      
+      if (autoAddParam) {
+        try {
+          const musicData = JSON.parse(decodeURIComponent(autoAddParam));
+          console.log('🎵 Alarm에서 음악 데이터 수신:', musicData);
+          
+          // Firebase에 음악 추가
+          const { addMusicFromAlarm } = await import('./services/firebase');
+          await addMusicFromAlarm({
+            name: musicData.name,
+            audioUrl: musicData.audioUrl,
+            charmTraits: musicData.charmTraits,
+            duration: musicData.duration
+          });
+          
+          console.log('✅ Firebase에 음악 추가 완료!');
+          
+          // URL 파라미터 제거
+          window.history.replaceState({}, document.title, window.location.pathname);
+        } catch (error) {
+          console.error('❌ 자동 음악 추가 실패:', error);
+        }
+      }
+    };
+
     // Firebase 연결 시도, 실패 시 목업 데이터 사용
     const loadTracks = async () => {
       try {
@@ -182,7 +211,10 @@ export default function App() {
       setIsLoading(false);
     };
 
-    loadTracks();
+    // 자동 추가 확인 후 Firebase 로드
+    checkAutoAdd().then(() => {
+      loadTracks();
+    });
   }, []);
 
   const handleTrackSelect = (track: MusicTrack) => {
