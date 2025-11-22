@@ -203,7 +203,6 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
           <p className="text-sm mt-2">Aster Alarm에서 음악을 생성해보세요!</p>
         </div>
       )}
-      </div>
     </div>
   );
 }
