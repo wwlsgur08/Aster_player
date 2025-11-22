@@ -75,7 +75,7 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
       <div className="flex items-center justify-between mb-4">
           <h2 className="text-white flex items-center gap-2">
             <Music className="w-6 h-6" />
-            매력 음악 리스트
+            매력 음악 리스트 11
           </h2>
           <div className="flex items-center gap-3">
             <button
