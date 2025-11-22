@@ -37,3 +37,4 @@ lerna-debug.log*
 
 # Lock files (optional - 버셀 배포 시 package-lock.json은 포함하는 게 좋음)
 # package-lock.json
+.vercel
