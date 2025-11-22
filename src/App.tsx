@@ -267,14 +267,14 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto min-h-0" style={{ height: 'calc(100vh - 80px)' }}>
+          <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto min-h-0" style={{ height: 'calc(100vh - 80px)' }}>
             {/* LP Player */}
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center h-full">
               {currentTrack && <MusicPlayer track={currentTrack} />}
             </div>
 
             {/* Music List - 투명한 박스 안에서 스크롤 */}
-            <div className="music-list-scroll overflow-y-scroll" style={{ height: 'calc(100vh - 80px)' }}>
+            <div className="h-full min-h-0 overflow-y-auto music-list-scroll bg-white/5 border border-white/10 rounded-2xl p-4">
               <MusicList 
                 tracks={tracks} 
                 currentTrack={currentTrack}
