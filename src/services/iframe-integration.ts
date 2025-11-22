@@ -1,16 +1,58 @@
 // iframe 통신을 통한 Alarm 사이트 연동
 import { addMusicFromAlarm } from './firebase';
 
+// 허용된 알람 사이트 오리진 목록 (배포/개발 대응)
+const ALLOWED_ALARM_ORIGINS = new Set<string>([
+  'https://aster-alarm.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000'
+]);
+
+// Player 준비 완료 신호 보내기 (opener 또는 parent로)
+const notifyPlayerReady = () => {
+  try {
+    const message = { type: 'PLAYER_READY' } as const;
+    // 새 창으로 열린 경우
+    if (window.opener && !window.opener.closed) {
+      // 배포 오리진으로 우선 통지
+      window.opener.postMessage(message, 'https://aster-alarm.vercel.app');
+      // 개발용 로컬 호스트에도 베스트 에포트 통지
+      window.opener.postMessage(message, 'http://localhost:5173');
+      window.opener.postMessage(message, 'http://localhost:3000');
+    }
+    // iframe 으로 임베드된 경우
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage(message, 'https://aster-alarm.vercel.app');
+      window.parent.postMessage(message, 'http://localhost:5173');
+      window.parent.postMessage(message, 'http://localhost:3000');
+    }
+  } catch (e) {
+    console.warn('PLAYER_READY 통지 실패:', e);
+  }
+};
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  notifyPlayerReady();
+} else {
+  window.addEventListener('DOMContentLoaded', notifyPlayerReady);
+}
+
 // Player 사이트에서 Alarm 사이트로부터 메시지 받기
 window.addEventListener('message', async (event) => {
   // 보안: 출처 확인
-  if (event.origin !== 'https://aster-alarm.vercel.app') {
+  if (!ALLOWED_ALARM_ORIGINS.has(event.origin)) {
     return;
   }
 
-  const { type, data } = event.data;
+  const { type, data } = (event.data || {}) as { type?: string; data?: any };
 
-  if (type === 'MUSIC_GENERATED') {
+  if (type === 'PING') {
+    // 헬스 체크/동기화용 응답
+    event.source?.postMessage({ type: 'PONG' }, event.origin);
+    return;
+  }
+
+  if (type === 'MUSIC_GENERATED' && data) {
     try {
       console.log('🎵 Alarm에서 음악 생성됨:', data);
 
@@ -36,7 +78,7 @@ window.addEventListener('message', async (event) => {
       // Alarm 사이트에 실패 알림
       event.source?.postMessage({
         type: 'MUSIC_UPLOAD_ERROR',
-        error: error.message
+        error: (error as Error)?.message || 'unknown'
       }, event.origin);
     }
   }

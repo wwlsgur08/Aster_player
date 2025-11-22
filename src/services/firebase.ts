@@ -75,7 +75,8 @@ export const subscribeMusicTracks = (callback: (tracks: FirebaseMusicTrack[]) =>
     }
   });
 
-  return () => off(musicsRef, 'value', unsubscribe);
+  // onValue가 반환한 언구수 함수를 그대로 반환 (누수/중복 방지)
+  return unsubscribe;
 };
 
 // API 엔드포인트: alarm 사이트에서 호출할 함수
