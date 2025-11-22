@@ -7,10 +7,10 @@ interface MusicTrack {
   id: string;
   name: string;
   traits: { charm_name: string; stage: number }[];
-  name: string;
   duration: number;
   audioUrl: string;
   createdAt: number;
+  ordinal: number;
 }
 
 interface MusicListProps {
@@ -48,7 +48,7 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
       return;
     }
     const pwd = window.prompt('관리자 비밀번호를 입력하세요.');
-    const expected = (import.meta as any)?.env?.VITE_ADMIN_PASSWORD || 'aster1234';
+    const expected = (import.meta as any)?.env?.VITE_ADMIN_PASSWORD || '0515';
     if (pwd && pwd === expected) {
       setCanDelete(true);
       alert('삭제 권한이 활성화되었습니다. 항목의 X 버튼으로 삭제할 수 있습니다.');
@@ -122,7 +122,7 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2">
                     <h3 className="text-white truncate">
-                      {track.name}의 매력 음악
+                      {track.ordinal > 0 ? `${track.ordinal}번째 매력 음악` : '매력 음악'}
                     </h3>
                     {isActive && (
                       <span className={`flex-shrink-0 px-2 py-0.5 bg-gradient-to-r ${dominantCategory.color.from} ${dominantCategory.color.to} text-white text-xs rounded-full shadow-lg`}>

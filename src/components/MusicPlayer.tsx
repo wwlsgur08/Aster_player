@@ -9,6 +9,7 @@ interface MusicTrack {
   duration: number;
   audioUrl: string;
   createdAt: number;
+  ordinal?: number;
 }
 
 interface MusicPlayerProps {
@@ -324,7 +325,7 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
 
       {/* Track Info */}
       <div className="text-center mb-6">
-        <h2 className="text-white text-2xl mb-2">{track.name}의 매력 음악</h2>
+        <h2 className="text-white text-2xl mb-2">{typeof track.ordinal === 'number' && track.ordinal! > 0 ? `${track.ordinal}번째 매력 음악` : '매력 음악'}</h2>
         <div className={`inline-block px-4 py-1.5 bg-gradient-to-r ${dominantCategory.color.from} ${dominantCategory.color.to} rounded-full text-white text-sm mb-3 shadow-lg`}>
           {dominantCategory.name}
         </div>

@@ -17,6 +17,7 @@ export interface MusicTrack {
     stage: number;
   }[];
   createdAt: number;
+  ordinal: number;
 }
 
 // 별자리 연결선 SVG 컴포넌트
@@ -127,6 +128,16 @@ export default function App() {
         // Firebase에서 실시간으로 음악 데이터 구독
         const unsubscribe = subscribeMusicTracks((firebaseTracks: FirebaseMusicTrack[]) => {
           // Firebase 데이터를 MusicTrack 형식으로 변환
+          // 1) 1번째=가장 먼저 등록된 항목이 되도록 오더 계산
+          const ascByTime = [...firebaseTracks]
+            .filter(t => (t as any).createdAt)
+            .sort((a, b) => (a as any).createdAt - (b as any).createdAt);
+          const ordinalMap = new Map<string, number>();
+          ascByTime.forEach((t, i) => {
+            if (t.id) ordinalMap.set(t.id, i + 1);
+          });
+
+          // 2) Firebase 데이터를 MusicTrack 형식으로 변환 + ordinal 부여
           const convertedTracks: MusicTrack[] = firebaseTracks.map(track => ({
             id: track.id || '',
             name: track.name,
@@ -135,7 +146,8 @@ export default function App() {
             duration: track.duration,
             audioUrl: track.audioUrl,
             traits: track.charmTraits,
-            createdAt: (track as any).createdAt ?? Date.now()
+            createdAt: (track as any).createdAt ?? Date.now(),
+            ordinal: ordinalMap.get(track.id || '') ?? 0
           }));
 
           setTracks(convertedTracks);
