@@ -146,12 +146,7 @@ export default function App() {
           setIsLoading(false);
         });
 
-        // 5초 후에도 데이터가 없으면 목업 데이터 로드
-        setTimeout(() => {
-          if (tracks.length === 0) {
-            loadMockData();
-          }
-        }, 5000);
+        // 목업 데이터 타임아웃 제거: 실시간 데이터만 사용
 
         return () => unsubscribe();
       } catch (error) {
