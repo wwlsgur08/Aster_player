@@ -274,7 +274,7 @@ export default function App() {
             </div>
 
             {/* Music List - 투명한 박스 안에서 스크롤 */}
-            <div className="min-h-0 h-full flex flex-col" style={{ height: 'calc(100vh - 80px)' }}>
+            <div className="music-list-scroll overflow-y-scroll" style={{ height: 'calc(100vh - 80px)' }}>
               <MusicList 
                 tracks={tracks} 
                 currentTrack={currentTrack}
