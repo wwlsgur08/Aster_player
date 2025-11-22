@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Download, Volume2, VolumeX } from 'lucide-react';
-import { getDominantCategory, getCDImage } from '../utils/charmCategories';
+import { getDominantCategory, getCDImage, getCharmColorByName } from '../utils/charmCategories';
 
 interface MusicTrack {
   id: string;
@@ -8,7 +8,7 @@ interface MusicTrack {
   traits: { charm_name: string; stage: number }[];
   duration: number;
   audioUrl: string;
-  createdAt: number;
+  createdAt?: number;
   ordinal?: number;
 }
 
@@ -330,14 +330,17 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
           {dominantCategory.name}
         </div>
         <div className="flex flex-wrap justify-center gap-2 mb-4">
-          {track.traits.map((trait, index) => (
-            <span 
-              key={index}
-              className={`px-3 py-1 ${dominantCategory.color.from.replace('from-', 'bg-')}/20 ${dominantCategory.color.text} rounded-full text-sm border ${dominantCategory.color.border}/50`}
-            >
-              {trait.charm_name} Lv.{trait.stage}
-            </span>
-          ))}
+          {track.traits.map((trait, index) => {
+            const c = getCharmColorByName(trait.charm_name);
+            return (
+              <span 
+                key={index}
+                className={`px-3 py-1 ${c.from.replace('from-', 'bg-')}/20 ${c.text} rounded-full text-sm border ${c.border}/50`}
+              >
+                {trait.charm_name} Lv.{trait.stage}
+              </span>
+            );
+          })}
         </div>
         <p className={`${dominantCategory.color.text} text-sm`}>
           {formatTime(duration)}{formatDate(track.createdAt) ? ` • ${formatDate(track.createdAt)}` : ''}

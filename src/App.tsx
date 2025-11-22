@@ -16,8 +16,8 @@ export interface MusicTrack {
     charm_name: string;
     stage: number;
   }[];
-  createdAt: number;
-  ordinal: number;
+  createdAt?: number;
+  ordinal?: number;
 }
 
 // 별자리 연결선 SVG 컴포넌트

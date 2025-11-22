@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Music, Clock, Calendar, Settings, X } from 'lucide-react';
-import { getDominantCategory } from '../utils/charmCategories';
+import { getDominantCategory, getCharmColorByName } from '../utils/charmCategories';
 import { deleteMusicTrack } from '../services/firebase';
 
 interface MusicTrack {
@@ -9,8 +9,8 @@ interface MusicTrack {
   traits: { charm_name: string; stage: number }[];
   duration: number;
   audioUrl: string;
-  createdAt: number;
-  ordinal: number;
+  createdAt?: number;
+  ordinal?: number;
 }
 
 interface MusicListProps {
@@ -136,16 +136,19 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
                     {dominantCategory.name}
                   </div>
 
-                  {/* Traits */}
+                  {/* Traits: 각 항목 고유 카테고리 색상 적용 */}
                   <div className="flex flex-wrap gap-1.5 mb-3">
-                    {track.traits.map((trait, index) => (
-                      <span
-                        key={index}
-                        className={`px-2 py-0.5 ${dominantCategory.color.from.replace('from-', 'bg-')}/20 ${dominantCategory.color.text} rounded text-xs border ${dominantCategory.color.border}/40`}
-                      >
-                        {trait.charm_name} Lv.{trait.stage}
-                      </span>
-                    ))}
+                    {track.traits.map((trait, index) => {
+                      const c = getCharmColorByName(trait.charm_name);
+                      return (
+                        <span
+                          key={index}
+                          className={`px-2 py-0.5 ${c.from.replace('from-', 'bg-')}/20 ${c.text} rounded text-xs border ${c.border}/40`}
+                        >
+                          {trait.charm_name} Lv.{trait.stage}
+                        </span>
+                      );
+                    })}
                   </div>
 
                   {/* Meta Info */}

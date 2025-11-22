@@ -143,22 +143,23 @@ export function getCategoryByCharm(charmName: string): string | null {
 
 // 트랙의 가장 많은 카테고리 찾기
 export function getDominantCategory(traits: { charm_name: string; stage: number }[]): CharmCategory {
-  const categoryCounts: Record<string, number> = {};
-  
+  // 카테고리 가중치 = 해당 카테고리에 속한 trait의 stage 합계
+  const categoryWeights: Record<string, number> = {};
+
   traits.forEach(trait => {
     const categoryKey = getCategoryByCharm(trait.charm_name);
     if (categoryKey) {
-      categoryCounts[categoryKey] = (categoryCounts[categoryKey] || 0) + 1;
+      categoryWeights[categoryKey] = (categoryWeights[categoryKey] || 0) + (Number(trait.stage) || 0);
     }
   });
 
-  // 가장 많이 나온 카테고리 찾기
-  let maxCount = 0;
+  // 가장 높은 가중치 카테고리 선택
+  let maxWeight = -1;
   let dominantKey = 'passion'; // 기본값
-  
-  for (const [key, count] of Object.entries(categoryCounts)) {
-    if (count > maxCount) {
-      maxCount = count;
+
+  for (const [key, weight] of Object.entries(categoryWeights)) {
+    if (weight > maxWeight) {
+      maxWeight = weight;
       dominantKey = key;
     }
   }
@@ -179,25 +180,30 @@ export const CD_IMAGES: Record<string, string> = {
 
 // 카테고리에 해당하는 CD 이미지 가져오기
 export function getCDImage(traits: { charm_name: string; stage: number }[]): string {
-  const categoryCounts: Record<string, number> = {};
+  // CD 이미지도 가중치(레벨 합) 기준으로 선택
+  const categoryWeights: Record<string, number> = {};
 
   traits.forEach(trait => {
     const categoryKey = getCategoryByCharm(trait.charm_name);
     if (categoryKey) {
-      categoryCounts[categoryKey] = (categoryCounts[categoryKey] || 0) + 1;
+      categoryWeights[categoryKey] = (categoryWeights[categoryKey] || 0) + (Number(trait.stage) || 0);
     }
   });
 
-  // 가장 많이 나온 카테고리 찾기
-  let maxCount = 0;
-  let dominantKey = 'passion'; // 기본값
-
-  for (const [key, count] of Object.entries(categoryCounts)) {
-    if (count > maxCount) {
-      maxCount = count;
+  let maxWeight = -1;
+  let dominantKey = 'passion';
+  for (const [key, weight] of Object.entries(categoryWeights)) {
+    if (weight > maxWeight) {
+      maxWeight = weight;
       dominantKey = key;
     }
   }
 
   return CD_IMAGES[dominantKey];
+}
+
+// 개별 매력(트레이트)명으로 색상 세트 반환
+export function getCharmColorByName(charmName: string) {
+  const key = getCategoryByCharm(charmName);
+  return key ? CHARM_CATEGORIES[key].color : CHARM_CATEGORIES['passion'].color;
 }
