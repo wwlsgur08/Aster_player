@@ -102,7 +102,7 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
     <div className="bg-slate-800/40 backdrop-blur-xl rounded-3xl p-8 border-2 border-slate-700/50 shadow-2xl">
       {/* Turntable Container */}
       <div className="relative mb-8">
-        <div className="aspect-square max-w-md mx-auto relative">
+        <div className="aspect-square max-w-lg min-w-[512px] mx-auto relative">
           {/* Turntable Image */}
           <img 
             src="/images/turntable.svg" 
