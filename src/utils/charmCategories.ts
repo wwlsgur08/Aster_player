@@ -132,10 +132,36 @@ export const CHARM_CATEGORIES: Record<string, CharmCategory> = {
 };
 
 // 매력 이름으로 카테고리 찾기
+// 표기 변형을 흡수하기 위한 정규화 및 별칭 처리
+const normalize = (s: string) => (s || '')
+  .toLowerCase()
+  .replace(/\s+/g, '') // 공백 제거
+  .replace(/[^가-힣a-z0-9]/gi, ''); // 특수문자 제거
+
+const ALIASES: Record<string, string> = {
+  // 공백/표기 변형 보정
+  '원칙준수': '원칙 준수',
+  '약자보호': '약자보호', // 그대로이지만 정규화 대비
+  '현실감각': '현실 감각',
+  '유머감각': '유머 감각',
+  '이해심및공감능력': '이해심', // 대표 키워드 한 개로 매핑
+  '연락등관계를이어가는능력': '연락 등 관계를 이어가는 능력',
+};
+
 export function getCategoryByCharm(charmName: string): string | null {
+  if (!charmName) return null;
+
+  // 별칭 매핑 적용
+  const alias = ALIASES[normalize(charmName)];
+  const target = alias || charmName;
+  const normTarget = normalize(target);
+
   for (const [key, category] of Object.entries(CHARM_CATEGORIES)) {
-    if (category.charms.some(charm => charmName.includes(charm) || charm.includes(charmName))) {
-      return key;
+    for (const charm of category.charms) {
+      const normCharm = normalize(charm);
+      if (normTarget.includes(normCharm) || normCharm.includes(normTarget)) {
+        return key;
+      }
     }
   }
   return null;
