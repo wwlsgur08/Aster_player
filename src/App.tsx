@@ -29,7 +29,7 @@ const ConstellationLines = () => (
         <stop offset="100%" stopColor="#67e8f9" />
       </linearGradient>
     </defs>
-    
+
     {/* 별자리 연결선들 */}
     <motion.path
       d="M100,100 L200,150 L300,120 L400,180 L500,140"
@@ -58,7 +58,7 @@ const ConstellationLines = () => (
       animate={{ pathLength: 1, opacity: 0.6 }}
       transition={{ duration: 3, delay: 1.5 }}
     />
-    
+
     {/* 별들 */}
     {[
       { x: 100, y: 100 }, { x: 200, y: 150 }, { x: 300, y: 120 }, { x: 400, y: 180 }, { x: 500, y: 140 },
@@ -72,12 +72,12 @@ const ConstellationLines = () => (
         r="2"
         fill="url(#starGradient)"
         initial={{ scale: 0, opacity: 0 }}
-        animate={{ 
+        animate={{
           scale: [0, 1.2, 1, 1.5, 1],
           opacity: [0, 1, 0.7, 1, 0.8]
         }}
-        transition={{ 
-          duration: 2, 
+        transition={{
+          duration: 2,
           delay: 0.5 + index * 0.1,
           repeat: Infinity,
           repeatDelay: 3 + index * 0.2
@@ -97,12 +97,12 @@ export default function App() {
     const checkAutoAdd = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const autoAddParam = urlParams.get('auto-add');
-      
+
       if (autoAddParam) {
         try {
           const musicData = JSON.parse(decodeURIComponent(autoAddParam));
           console.log('🎵 Alarm에서 음악 데이터 수신:', musicData);
-          
+
           // Firebase에 음악 추가
           const { addMusicFromAlarm } = await import('./services/firebase');
           await addMusicFromAlarm({
@@ -111,9 +111,9 @@ export default function App() {
             charmTraits: musicData.charmTraits,
             duration: musicData.duration
           });
-          
+
           console.log('✅ Firebase에 음악 추가 완료!');
-          
+
           // URL 파라미터 제거
           window.history.replaceState({}, document.title, window.location.pathname);
         } catch (error) {
@@ -151,12 +151,12 @@ export default function App() {
           }));
 
           setTracks(convertedTracks);
-          
+
           // 첫 번째 트랙을 현재 트랙으로 설정 (가장 최신)
           if (convertedTracks.length > 0 && !currentTrack) {
             setCurrentTrack(convertedTracks[0]);
           }
-          
+
           setIsLoading(false);
         });
 
@@ -234,7 +234,7 @@ export default function App() {
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden">
       {/* 배경 별자리 */}
       <ConstellationLines />
-      
+
       {/* 배경 별들 */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {Array.from({ length: 50 }).map((_, i) => (
@@ -267,18 +267,18 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto" style={{ height: 'calc(100vh - 80px)' }}>
-            {/* LP Player */}
-            <div className="flex items-center justify-center">
+          <div className="flex gap-8 max-w-7xl mx-auto" style={{ height: 'calc(100vh - 80px)' }}>
+            {/* LP Player - 고정 너비 */}
+            <div className="flex items-center justify-center" style={{ width: '50%', minWidth: '400px' }}>
               {currentTrack && <MusicPlayer track={currentTrack} />}
             </div>
 
             {/* Music List - 투명한 박스 안에서 스크롤 */}
-            <div style={{ height: 'calc(100vh - 80px)' }}>
-              <MusicList 
-                tracks={tracks} 
+            <div style={{ width: '50%', height: 'calc(100vh - 80px)' }}>
+              <MusicList
+                tracks={tracks}
                 currentTrack={currentTrack}
-                onTrackSelect={handleTrackSelect} 
+                onTrackSelect={handleTrackSelect}
               />
             </div>
           </div>

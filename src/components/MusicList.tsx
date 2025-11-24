@@ -6,6 +6,8 @@ import { deleteMusicTrack } from '../services/firebase';
 interface MusicTrack {
   id: string;
   name: string;
+  title: string;
+  artist: string;
   traits: { charm_name: string; stage: number }[];
   duration: number;
   audioUrl: string;
