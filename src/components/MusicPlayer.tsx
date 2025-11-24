@@ -104,24 +104,23 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
       <div className="relative mb-8">
         <div className="aspect-square max-w-md mx-auto relative">
           {/* Turntable Image */}
-          <img 
-            src="/images/turntable.svg" 
-            alt="Turntable" 
+          <img
+            src="/images/turntable.svg"
+            alt="Turntable"
             className="w-full h-full object-contain"
           />
 
           {/* CD Image - 턴테이블 웰에 딱 맞게 위치 */}
-          <div 
+          <div
             className="absolute inset-0 flex items-center justify-center"
             style={{
               transform: 'translateX(-16px)'
             }}
           >
-            <div 
-              className={`relative ${
-                isPlaying ? 'animate-spin' : ''
-              }`}
-              style={{ 
+            <div
+              className={`relative ${isPlaying ? 'animate-spin' : ''
+                }`}
+              style={{
                 width: '65%',
                 height: '65%',
                 animationDuration: '3s',
@@ -129,26 +128,26 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
               }}
             >
               {/* CD 뒷면 그림자 효과 */}
-              <div 
+              <div
                 className="absolute inset-0 rounded-full blur-xl opacity-40"
                 style={{
                   background: `radial-gradient(circle, ${dominantCategory.color.from.replace('from-', '')} 0%, transparent 70%)`,
                   transform: 'scale(0.95)'
                 }}
               />
-              
+
               {/* CD 본체 */}
-              <img 
-                src={cdImage} 
-                alt="CD Album" 
+              <img
+                src={cdImage}
+                alt="CD Album"
                 className="relative w-full h-full object-cover rounded-full"
                 style={{
                   filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.5)) drop-shadow(0 0 20px rgba(0,0,0,0.3))'
                 }}
               />
-              
+
               {/* CD 반짝임 효과 */}
-              <div 
+              <div
                 className="absolute inset-0 rounded-full pointer-events-none"
                 style={{
                   background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%)',
@@ -160,7 +159,7 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
           </div>
 
           {/* 애니메이션 톤암 오버레이 */}
-          <div 
+          <div
             className="absolute pointer-events-none"
             style={{
               top: '20%',
@@ -175,124 +174,124 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
             <svg viewBox="0 0 200 200" className="w-full h-full">
               <defs>
                 <linearGradient id="tonearmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{stopColor: '#5a5a5a', stopOpacity: 1}} />
-                  <stop offset="30%" style={{stopColor: '#3a3a3a', stopOpacity: 1}} />
-                  <stop offset="70%" style={{stopColor: '#2a2a2a', stopOpacity: 1}} />
-                  <stop offset="100%" style={{stopColor: '#1a1a1a', stopOpacity: 1}} />
+                  <stop offset="0%" style={{ stopColor: '#5a5a5a', stopOpacity: 1 }} />
+                  <stop offset="30%" style={{ stopColor: '#3a3a3a', stopOpacity: 1 }} />
+                  <stop offset="70%" style={{ stopColor: '#2a2a2a', stopOpacity: 1 }} />
+                  <stop offset="100%" style={{ stopColor: '#1a1a1a', stopOpacity: 1 }} />
                 </linearGradient>
-                
+
                 <linearGradient id="tonearmTop" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" style={{stopColor: '#4a4a4a', stopOpacity: 1}} />
-                  <stop offset="50%" style={{stopColor: '#3a3a3a', stopOpacity: 1}} />
-                  <stop offset="100%" style={{stopColor: '#2a2a2a', stopOpacity: 1}} />
+                  <stop offset="0%" style={{ stopColor: '#4a4a4a', stopOpacity: 1 }} />
+                  <stop offset="50%" style={{ stopColor: '#3a3a3a', stopOpacity: 1 }} />
+                  <stop offset="100%" style={{ stopColor: '#2a2a2a', stopOpacity: 1 }} />
                 </linearGradient>
 
                 <radialGradient id="baseGrad" cx="50%" cy="50%">
-                  <stop offset="0%" style={{stopColor: '#4a4a4a', stopOpacity: 1}} />
-                  <stop offset="50%" style={{stopColor: '#2a2a2a', stopOpacity: 1}} />
-                  <stop offset="100%" style={{stopColor: '#1a1a1a', stopOpacity: 1}} />
+                  <stop offset="0%" style={{ stopColor: '#4a4a4a', stopOpacity: 1 }} />
+                  <stop offset="50%" style={{ stopColor: '#2a2a2a', stopOpacity: 1 }} />
+                  <stop offset="100%" style={{ stopColor: '#1a1a1a', stopOpacity: 1 }} />
                 </radialGradient>
 
                 <filter id="tonearmShadow">
-                  <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
-                  <feOffset dx="1" dy="2" result="offsetblur"/>
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="2" />
+                  <feOffset dx="1" dy="2" result="offsetblur" />
                   <feComponentTransfer>
-                    <feFuncA type="linear" slope="0.5"/>
+                    <feFuncA type="linear" slope="0.5" />
                   </feComponentTransfer>
                   <feMerge>
-                    <feMergeNode/>
-                    <feMergeNode in="SourceGraphic"/>
+                    <feMergeNode />
+                    <feMergeNode in="SourceGraphic" />
                   </feMerge>
                 </filter>
               </defs>
-              
+
               {/* 톤암 베이스 */}
-              <circle cx="180" cy="20" r="18" fill="#1a1a1a" opacity="0.3"/>
-              <circle cx="180" cy="20" r="16" fill="url(#baseGrad)"/>
-              <circle cx="180" cy="20" r="13" fill="#2a2a2a"/>
-              <circle cx="180" cy="20" r="11" fill="#3a3a3a"/>
-              
+              <circle cx="180" cy="20" r="18" fill="#1a1a1a" opacity="0.3" />
+              <circle cx="180" cy="20" r="16" fill="url(#baseGrad)" />
+              <circle cx="180" cy="20" r="13" fill="#2a2a2a" />
+              <circle cx="180" cy="20" r="11" fill="#3a3a3a" />
+
               {/* 톤암 본체 - 3D 효과 */}
               <g filter="url(#tonearmShadow)">
                 {/* 톤암 바닥 그림자 */}
-                <line 
-                  x1="180" 
-                  y1="20" 
-                  x2="50" 
-                  y2="120" 
-                  stroke="#000000" 
-                  strokeWidth="12" 
+                <line
+                  x1="180"
+                  y1="20"
+                  x2="50"
+                  y2="120"
+                  stroke="#000000"
+                  strokeWidth="12"
                   strokeLinecap="round"
                   opacity="0.3"
                 />
-                
+
                 {/* 톤암 메인 */}
-                <line 
-                  x1="180" 
-                  y1="20" 
-                  x2="50" 
-                  y2="120" 
-                  stroke="url(#tonearmGrad)" 
-                  strokeWidth="10" 
+                <line
+                  x1="180"
+                  y1="20"
+                  x2="50"
+                  y2="120"
+                  stroke="url(#tonearmGrad)"
+                  strokeWidth="10"
                   strokeLinecap="round"
                 />
-                
+
                 {/* 톤암 하이라이트 */}
-                <line 
-                  x1="180" 
-                  y1="20" 
-                  x2="50" 
-                  y2="120" 
-                  stroke="url(#tonearmTop)" 
-                  strokeWidth="6" 
+                <line
+                  x1="180"
+                  y1="20"
+                  x2="50"
+                  y2="120"
+                  stroke="url(#tonearmTop)"
+                  strokeWidth="6"
                   strokeLinecap="round"
                   opacity="0.7"
                 />
-                
+
                 {/* 톤암 상단 하이라이트 */}
-                <line 
-                  x1="180" 
-                  y1="20" 
-                  x2="115" 
-                  y2="70" 
-                  stroke="#5a5a5a" 
-                  strokeWidth="3" 
+                <line
+                  x1="180"
+                  y1="20"
+                  x2="115"
+                  y2="70"
+                  stroke="#5a5a5a"
+                  strokeWidth="3"
                   strokeLinecap="round"
                   opacity="0.5"
                 />
               </g>
-              
+
               {/* 톤암 조인트들 */}
-              <circle cx="180" cy="20" r="6" fill="#2a2a2a"/>
-              <circle cx="180" cy="20" r="4" fill="#4a4a4a"/>
-              
-              <circle cx="115" cy="70" r="5" fill="#2a2a2a"/>
-              <circle cx="115" cy="70" r="3" fill="#3a3a3a"/>
-              
+              <circle cx="180" cy="20" r="6" fill="#2a2a2a" />
+              <circle cx="180" cy="20" r="4" fill="#4a4a4a" />
+
+              <circle cx="115" cy="70" r="5" fill="#2a2a2a" />
+              <circle cx="115" cy="70" r="3" fill="#3a3a3a" />
+
               {/* 헤드쉘 (카트리지 부분) */}
               <g transform="translate(50, 120)">
                 {/* 헤드쉘 바디 */}
-                <rect x="-12" y="-6" width="24" height="12" rx="3" fill="#1a1a1a"/>
-                <rect x="-11" y="-5" width="22" height="10" rx="2" fill="url(#tonearmGrad)"/>
-                <rect x="-10" y="-4" width="20" height="8" rx="2" fill="#2a2a2a"/>
-                
+                <rect x="-12" y="-6" width="24" height="12" rx="3" fill="#1a1a1a" />
+                <rect x="-11" y="-5" width="22" height="10" rx="2" fill="url(#tonearmGrad)" />
+                <rect x="-10" y="-4" width="20" height="8" rx="2" fill="#2a2a2a" />
+
                 {/* 카트리지 디테일 */}
-                <rect x="-8" y="-3" width="16" height="6" rx="1" fill="#3a3a3a"/>
-                <rect x="-6" y="-2" width="4" height="4" rx="0.5" fill="#252525"/>
-                
+                <rect x="-8" y="-3" width="16" height="6" rx="1" fill="#3a3a3a" />
+                <rect x="-6" y="-2" width="4" height="4" rx="0.5" fill="#252525" />
+
                 {/* 바늘 */}
-                <line x1="0" y1="6" x2="0" y2="14" stroke="#888888" strokeWidth="1.5" strokeLinecap="round"/>
-                <circle cx="0" cy="14" r="1.5" fill="#666666"/>
-                
+                <line x1="0" y1="6" x2="0" y2="14" stroke="#888888" strokeWidth="1.5" strokeLinecap="round" />
+                <circle cx="0" cy="14" r="1.5" fill="#666666" />
+
                 {/* 재생 중 바늘 빛 효과 */}
                 {isPlaying && (
                   <>
                     <circle cx="0" cy="14" r="3" fill={dominantCategory.color.from.replace('from-', '')} opacity="0.3">
-                      <animate attributeName="r" values="3;5;3" dur="1s" repeatCount="indefinite"/>
-                      <animate attributeName="opacity" values="0.3;0.6;0.3" dur="1s" repeatCount="indefinite"/>
+                      <animate attributeName="r" values="3;5;3" dur="1s" repeatCount="indefinite" />
+                      <animate attributeName="opacity" values="0.3;0.6;0.3" dur="1s" repeatCount="indefinite" />
                     </circle>
                     <circle cx="0" cy="14" r="2" fill={dominantCategory.color.from.replace('from-', '')}>
-                      <animate attributeName="opacity" values="0.5;1;0.5" dur="1s" repeatCount="indefinite"/>
+                      <animate attributeName="opacity" values="0.5;1;0.5" dur="1s" repeatCount="indefinite" />
                     </circle>
                   </>
                 )}
@@ -302,7 +301,7 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
 
           {/* 재생 중일 때 톤암 포인트 */}
           {isPlaying && (
-            <div 
+            <div
               className="absolute"
               style={{
                 top: '38%',
@@ -311,7 +310,7 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
                 height: '4px'
               }}
             >
-              <div 
+              <div
                 className="w-full h-full rounded-full animate-pulse"
                 style={{
                   background: `${dominantCategory.color.from.replace('from-', '')}`,
@@ -333,7 +332,7 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
           {track.traits.map((trait, index) => {
             const c = getCharmColorByName(trait.charm_name);
             return (
-              <span 
+              <span
                 key={index}
                 className={`px-3 py-1 ${c.from.replace('from-', 'bg-')}/20 ${c.text} rounded-full text-sm border ${c.border}/50`}
               >
@@ -349,22 +348,27 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
 
       {/* Progress Bar */}
       <div className="mb-6">
-        <input
-          type="range"
-          min="0"
-          max={duration || 100}
-          value={currentTime}
-          onChange={handleSeek}
-          className={`w-full h-2 ${dominantCategory.color.from.replace('from-', 'bg-')}/30 rounded-lg appearance-none cursor-pointer slider`}
-        />
+        <div className="relative">
+          <input
+            type="range"
+            min="0"
+            max={duration || 100}
+            value={currentTime}
+            onChange={handleSeek}
+            className="w-full h-2 bg-slate-600/50 rounded-lg appearance-none cursor-pointer slider"
+            style={{
+              background: `linear-gradient(to right, ${dominantCategory.color.from.replace('from-', '')} 0%, ${dominantCategory.color.to.replace('to-', '')} ${(currentTime / (duration || 100)) * 100}%, #475569 ${(currentTime / (duration || 100)) * 100}%, #475569 100%)`
+            }}
+          />
+        </div>
         <div className={`flex justify-between ${dominantCategory.color.text} text-sm mt-2`}>
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
       </div>
 
-      {/* Controls */}
-      <div className="flex items-center justify-center gap-4 mb-6">
+      {/* Controls with Volume */}
+      <div className="flex items-center justify-center gap-6">
         <button
           onClick={togglePlay}
           className={`w-16 h-16 rounded-full bg-gradient-to-br ${dominantCategory.color.from} ${dominantCategory.color.to} hover:brightness-110 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105`}
@@ -381,22 +385,22 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
         >
           <Download className="w-5 h-5 text-white" />
         </button>
-      </div>
 
-      {/* Volume Control */}
-      <div className="flex items-center gap-3">
-        <button onClick={toggleMute} className={`${dominantCategory.color.text} hover:text-white transition-colors`}>
-          {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-        </button>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={isMuted ? 0 : volume}
-          onChange={handleVolumeChange}
-          className={`flex-1 h-2 ${dominantCategory.color.from.replace('from-', 'bg-')}/30 rounded-lg appearance-none cursor-pointer slider`}
-        />
+        {/* Volume Control */}
+        <div className="flex items-center gap-3 min-w-[150px]">
+          <button onClick={toggleMute} className={`${dominantCategory.color.text} hover:text-white transition-colors`}>
+            {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+          </button>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={isMuted ? 0 : volume}
+            onChange={handleVolumeChange}
+            className="flex-1 h-2 bg-slate-600/50 rounded-lg appearance-none cursor-pointer slider"
+          />
+        </div>
       </div>
 
       {/* Hidden Audio Element */}
