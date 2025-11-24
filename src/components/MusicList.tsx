@@ -33,9 +33,9 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
     const value = typeof timestamp === 'string' ? parseInt(timestamp, 10) : timestamp;
     const date = new Date(value);
     if (!isFinite(date.getTime())) return '-';
-    return date.toLocaleString('ko-KR', { 
+    return date.toLocaleString('ko-KR', {
       year: 'numeric',
-      month: '2-digit', 
+      month: '2-digit',
       day: '2-digit',
       hour: '2-digit',
       minute: '2-digit'
@@ -73,45 +73,52 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
   return (
     <div className="h-full flex flex-col" style={{ paddingRight: '8px' }}>
       <div className="flex items-center justify-between mb-4">
-          <h2 className="text-white flex items-center gap-2">
-            <Music className="w-6 h-6" />
-            매력 음악 리스트
-          </h2>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleToggleAdmin}
-              className={`flex items-center gap-1 px-2 py-1 rounded text-xs border ${canDelete ? 'border-red-400 text-red-300' : 'border-white/20 text-white/70'} hover:border-cyan-400/60 hover:text-white transition`}
-              title={canDelete ? '관리 권한 해제' : '설정(관리자 모드)'}
-            >
-              <Settings className="w-4 h-4" />
-              {canDelete ? '관리 해제' : '설정'}
-            </button>
-            <span className="text-white/70">{tracks.length}곡</span>
-          </div>
+        <h2 className="text-white flex items-center gap-2">
+          <Music className="w-6 h-6" />
+          매력 음악 리스트
+        </h2>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleToggleAdmin}
+            className={`flex items-center gap-1 px-2 py-1 rounded text-xs border ${canDelete ? 'border-red-400 text-red-300' : 'border-white/20 text-white/70'} hover:border-cyan-400/60 hover:text-white transition`}
+            title={canDelete ? '관리 권한 해제' : '설정(관리자 모드)'}
+          >
+            <Settings className="w-4 h-4" />
+            {canDelete ? '관리 해제' : '설정'}
+          </button>
+          <span className="text-white/70">{tracks.length}곡</span>
         </div>
+      </div>
 
-      <div className="flex-1 overflow-y-auto music-list-scroll space-y-3">
+      <div
+        className="flex-1 overflow-y-auto space-y-3"
+        style={{
+          maxHeight: 'calc(100vh - 200px)',
+          paddingRight: '4px',
+          overflowY: 'auto',
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(96, 165, 250, 0.5) rgba(255, 255, 255, 0.1)'
+        }}
+      >
         {tracks.map((track) => {
           const isActive = currentTrack?.id === track.id;
           const dominantCategory = getDominantCategory(track.traits);
-          
+
           return (
             <button
               key={track.id}
               onClick={() => onTrackSelect(track)}
-              className={`w-full text-left p-5 rounded-2xl transition-all duration-300 border-2 ${
-                isActive
-                  ? 'bg-slate-700/60 border-cyan-400/70 shadow-lg'
-                  : 'bg-white/5 hover:bg-white/10 border-white/10 hover:border-cyan-400/30'
-              }`}
+              className={`w-full text-left p-5 rounded-2xl transition-all duration-300 border-2 ${isActive
+                ? 'bg-slate-700/60 border-cyan-400/70 shadow-lg'
+                : 'bg-white/5 hover:bg-white/10 border-white/10 hover:border-cyan-400/30'
+                }`}
             >
               <div className="flex items-start gap-4">
                 {/* Mini LP Icon */}
                 <div className="flex-shrink-0">
-                  <div 
-                    className={`w-16 h-16 rounded-full bg-gradient-to-br ${dominantCategory.color.from} ${dominantCategory.color.to} flex items-center justify-center shadow-lg ${
-                      isActive ? 'animate-pulse' : ''
-                    }`}
+                  <div
+                    className={`w-16 h-16 rounded-full bg-gradient-to-br ${dominantCategory.color.from} ${dominantCategory.color.to} flex items-center justify-center shadow-lg ${isActive ? 'animate-pulse' : ''
+                      }`}
                   >
                     <Music className="w-8 h-8 text-white" />
                   </div>
@@ -121,7 +128,7 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2">
                     <h3 className="text-white truncate">
-                      {track.ordinal > 0 ? `${track.ordinal}번째 매력 음악` : '매력 음악'}
+                      {track.ordinal && track.ordinal > 0 ? `${track.ordinal}번째 매력 음악` : '매력 음악'}
                     </h3>
                     {isActive && (
                       <span className={`flex-shrink-0 px-2 py-0.5 bg-gradient-to-r ${dominantCategory.color.from} ${dominantCategory.color.to} text-white text-xs rounded-full shadow-lg`}>
