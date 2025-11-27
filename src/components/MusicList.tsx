@@ -119,8 +119,9 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
                 {/* Mini LP Icon */}
                 <div className="flex-shrink-0">
                   <div
-                    className={`w-16 h-16 rounded-full bg-gradient-to-br ${dominantCategory.color.from} ${dominantCategory.color.to} flex items-center justify-center shadow-lg ${isActive ? 'animate-pulse' : ''
+                    className={`w-16 h-16 rounded-full flex items-center justify-center shadow-lg ${isActive ? 'animate-pulse' : ''
                       }`}
+                    style={{ background: `linear-gradient(to bottom right, rgb(${dominantCategory.colorValues.primary}), rgb(${dominantCategory.colorValues.secondary}))` }}
                   >
                     <Music className="w-8 h-8 text-white" />
                   </div>
@@ -133,14 +134,20 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
                       {track.ordinal && track.ordinal > 0 ? `${track.ordinal}번째 매력 음악` : '매력 음악'}
                     </h3>
                     {isActive && (
-                      <span className={`flex-shrink-0 px-2 py-0.5 bg-gradient-to-r ${dominantCategory.color.from} ${dominantCategory.color.to} text-white text-xs rounded-full shadow-lg`}>
+                      <span
+                        className="flex-shrink-0 px-2 py-0.5 text-white text-xs rounded-full shadow-lg"
+                        style={{ background: `linear-gradient(to right, rgb(${dominantCategory.colorValues.primary}), rgb(${dominantCategory.colorValues.secondary}))` }}
+                      >
                         재생중
                       </span>
                     )}
                   </div>
 
                   {/* Category Badge */}
-                  <div className={`inline-block px-2 py-0.5 bg-gradient-to-r ${dominantCategory.color.from} ${dominantCategory.color.to} text-white text-xs rounded mb-2 shadow-md`}>
+                  <div
+                    className="inline-block px-2 py-0.5 text-white text-xs rounded mb-2 shadow-md"
+                    style={{ background: `linear-gradient(to right, rgb(${dominantCategory.colorValues.primary}), rgb(${dominantCategory.colorValues.secondary}))` }}
+                  >
                     {dominantCategory.name}
                   </div>
 
@@ -151,7 +158,12 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
                       return (
                         <span
                           key={index}
-                          className={`px-2 py-0.5 ${c.from.replace('from-', 'bg-')}/20 ${c.text} rounded text-xs border ${c.border}/40`}
+                          className="px-2 py-0.5 rounded text-xs border"
+                          style={{
+                            background: `rgba(${c.values.primary}, 0.2)`,
+                            color: `rgb(${c.values.primary})`,
+                            borderColor: `rgba(${c.values.primary}, 0.4)`
+                          }}
                         >
                           {trait.charm_name} Lv.{trait.stage}
                         </span>
@@ -179,8 +191,9 @@ export function MusicList({ tracks, currentTrack, onTrackSelect }: MusicListProp
                       {[...Array(3)].map((_, i) => (
                         <div
                           key={i}
-                          className={`w-1 ${dominantCategory.color.from.replace('from-', 'bg-')} rounded-full animate-pulse`}
+                          className="w-1 rounded-full animate-pulse"
                           style={{
+                            background: `rgb(${dominantCategory.colorValues.primary})`,
                             height: '20px',
                             animationDelay: `${i * 0.15}s`,
                             animationDuration: '0.8s'

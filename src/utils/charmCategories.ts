@@ -238,5 +238,6 @@ export function getCDImage(traits: { charm_name: string; stage: number }[]): str
 // 개별 매력(트레이트)명으로 색상 세트 반환
 export function getCharmColorByName(charmName: string) {
   const key = getCategoryByCharm(charmName);
-  return key ? CHARM_CATEGORIES[key].color : CHARM_CATEGORIES['passion'].color;
+  const category = key ? CHARM_CATEGORIES[key] : CHARM_CATEGORIES['passion'];
+  return { ...category.color, values: category.colorValues };
 }

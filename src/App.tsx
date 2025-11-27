@@ -231,7 +231,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden" style={{ background: 'linear-gradient(to bottom, #0f172a, #1e3a8a, #312e81)' }}>
       {/* 배경 별자리 */}
       <ConstellationLines />
 

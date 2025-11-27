@@ -131,7 +131,7 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
               <div
                 className="absolute inset-0 rounded-full blur-xl opacity-40"
                 style={{
-                  background: `radial-gradient(circle, ${dominantCategory.color.from.replace('from-', '')} 0%, transparent 70%)`,
+                  background: `radial-gradient(circle, rgb(${dominantCategory.colorValues.primary}) 0%, transparent 70%)`,
                   transform: 'scale(0.95)'
                 }}
               />
@@ -286,11 +286,11 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
                 {/* 재생 중 바늘 빛 효과 */}
                 {isPlaying && (
                   <>
-                    <circle cx="0" cy="14" r="3" fill={dominantCategory.color.from.replace('from-', '')} opacity="0.3">
+                    <circle cx="0" cy="14" r="3" fill={`rgb(${dominantCategory.colorValues.primary})`} opacity="0.3">
                       <animate attributeName="r" values="3;5;3" dur="1s" repeatCount="indefinite" />
                       <animate attributeName="opacity" values="0.3;0.6;0.3" dur="1s" repeatCount="indefinite" />
                     </circle>
-                    <circle cx="0" cy="14" r="2" fill={dominantCategory.color.from.replace('from-', '')}>
+                    <circle cx="0" cy="14" r="2" fill={`rgb(${dominantCategory.colorValues.primary})`}>
                       <animate attributeName="opacity" values="0.5;1;0.5" dur="1s" repeatCount="indefinite" />
                     </circle>
                   </>
@@ -313,8 +313,8 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
               <div
                 className="w-full h-full rounded-full animate-pulse"
                 style={{
-                  background: `${dominantCategory.color.from.replace('from-', '')}`,
-                  boxShadow: `0 0 10px ${dominantCategory.color.from.replace('from-', '')}`
+                  background: `rgb(${dominantCategory.colorValues.primary})`,
+                  boxShadow: `0 0 10px rgb(${dominantCategory.colorValues.primary})`
                 }}
               />
             </div>
@@ -325,7 +325,10 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
       {/* Track Info */}
       <div className="text-center mb-6">
         <h2 className="text-white text-2xl mb-2">{typeof track.ordinal === 'number' && track.ordinal! > 0 ? `${track.ordinal}번째 매력 음악` : '매력 음악'}</h2>
-        <div className={`inline-block px-4 py-1.5 bg-gradient-to-r ${dominantCategory.color.from} ${dominantCategory.color.to} rounded-full text-white text-sm mb-3 shadow-lg`}>
+        <div
+          className="inline-block px-4 py-1.5 rounded-full text-white text-sm mb-3 shadow-lg"
+          style={{ background: `linear-gradient(to right, rgb(${dominantCategory.colorValues.primary}), rgb(${dominantCategory.colorValues.secondary}))` }}
+        >
           {dominantCategory.name}
         </div>
         <div className="flex flex-wrap justify-center gap-2 mb-4">
@@ -334,14 +337,19 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
             return (
               <span
                 key={index}
-                className={`px-3 py-1 ${c.from.replace('from-', 'bg-')}/20 ${c.text} rounded-full text-sm border ${c.border}/50`}
+                className="px-3 py-1 rounded-full text-sm border"
+                style={{
+                  background: `rgba(${c.values.primary}, 0.2)`,
+                  color: `rgb(${c.values.primary})`,
+                  borderColor: `rgba(${c.values.primary}, 0.5)`
+                }}
               >
                 {trait.charm_name} Lv.{trait.stage}
               </span>
             );
           })}
         </div>
-        <p className={`${dominantCategory.color.text} text-sm`}>
+        <p className="text-sm" style={{ color: `rgb(${dominantCategory.colorValues.primary})` }}>
           {formatTime(duration)}{formatDate(track.createdAt) ? ` • ${formatDate(track.createdAt)}` : ''}
         </p>
       </div>
@@ -357,7 +365,7 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
             onChange={handleSeek}
             className="w-full h-2 bg-slate-600/50 rounded-lg appearance-none cursor-pointer slider"
             style={{
-              background: `linear-gradient(to right, ${dominantCategory.color.from.replace('from-', '')} 0%, ${dominantCategory.color.to.replace('to-', '')} ${(currentTime / (duration || 100)) * 100}%, #475569 ${(currentTime / (duration || 100)) * 100}%, #475569 100%)`
+              background: `linear-gradient(to right, rgb(${dominantCategory.colorValues.primary}) 0%, rgb(${dominantCategory.colorValues.secondary}) ${(currentTime / (duration || 100)) * 100}%, #475569 ${(currentTime / (duration || 100)) * 100}%, #475569 100%)`
             }}
           />
         </div>
@@ -371,7 +379,8 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
       <div className="flex items-center justify-center gap-6">
         <button
           onClick={togglePlay}
-          className={`w-16 h-16 rounded-full bg-gradient-to-br ${dominantCategory.color.from} ${dominantCategory.color.to} hover:brightness-110 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105`}
+          className="w-16 h-16 rounded-full hover:brightness-110 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
+          style={{ background: `linear-gradient(to bottom right, rgb(${dominantCategory.colorValues.primary}), rgb(${dominantCategory.colorValues.secondary}))` }}
         >
           {isPlaying ? (
             <Pause className="w-8 h-8 text-white" />
@@ -381,14 +390,18 @@ export function MusicPlayer({ track }: MusicPlayerProps) {
         </button>
 
         <button
-          className={`w-12 h-12 rounded-full ${dominantCategory.color.from.replace('from-', 'bg-')}/30 hover:${dominantCategory.color.from.replace('from-', 'bg-')}/50 flex items-center justify-center transition-all duration-200 hover:scale-105 border ${dominantCategory.color.border}/50`}
+          className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 border"
+          style={{
+            background: `rgba(${dominantCategory.colorValues.primary}, 0.3)`,
+            borderColor: `rgba(${dominantCategory.colorValues.primary}, 0.5)`
+          }}
         >
           <Download className="w-5 h-5 text-white" />
         </button>
 
         {/* Volume Control */}
         <div className="flex items-center gap-3 min-w-[150px]">
-          <button onClick={toggleMute} className={`${dominantCategory.color.text} hover:text-white transition-colors`}>
+          <button onClick={toggleMute} className="transition-colors hover:text-white" style={{ color: `rgb(${dominantCategory.colorValues.primary})` }}>
             {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
           </button>
           <input
